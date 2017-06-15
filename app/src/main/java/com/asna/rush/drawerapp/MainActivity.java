@@ -1,8 +1,11 @@
 package com.asna.rush.drawerapp;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -12,9 +15,20 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.Toast;
+
+import static com.asna.rush.drawerapp.R.id.btnCreateDatabase;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements DatabaseManagerFragment.OnFragmentInteractionListener, View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
+    }
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +54,26 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+
+    }
+
+    @Override
+    public void onClick(View v) {
+
+        int callerId = v.getId();
+        switch (callerId) {
+            case R.id.btnCreateDatabase:
+                CreateDatabase();
+                break;
+        }
+    }
+
+    private void CreateDatabase()
+    {
+        Toast.makeText(this, "CreateDatabase!", Toast.LENGTH_LONG).show();
+        //dataProvider.CreateDatabase();
+        //lblInfo.setText("Database created!");
     }
 
     @Override
@@ -66,6 +100,10 @@ public class MainActivity extends AppCompatActivity
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
+        Toast.makeText(this, "Id: " + id, Toast.LENGTH_LONG).show();
+
+        Fragment fragment = null;
+
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
@@ -80,7 +118,13 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
+        Toast.makeText(this, "Id: " + id, Toast.LENGTH_LONG).show();
+
+        Fragment fragment = null;
+
         if (id == R.id.nav_camera) {
+
+            fragment = new DatabaseManagerFragment();
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {
 
@@ -96,6 +140,17 @@ public class MainActivity extends AppCompatActivity
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
+
+        if (fragment != null) {
+
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.container, fragment)
+                    .commit();
+        }
+
         return true;
     }
+
+
 }
