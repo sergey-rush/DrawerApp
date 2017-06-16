@@ -4,20 +4,19 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.ListView;
 
-import com.google.android.gms.plus.PlusOneButton;
+import java.lang.reflect.Array;
+import java.util.List;
 
-import static com.asna.rush.drawerapp.R.id.btnCreateDatabase;
+import static com.asna.rush.drawerapp.R.id.tvName;
 
-public class DatabaseManagerFragment extends Fragment  {
+public class SectionFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -27,16 +26,23 @@ public class DatabaseManagerFragment extends Fragment  {
     private String mParam1;
     private String mParam2;
 
-
     private OnFragmentInteractionListener mListener;
 
-    public DatabaseManagerFragment() {
+    public SectionFragment() {
         // Required empty public constructor
     }
 
+    /**
+     * Use this factory method to create a new instance of
+     * this fragment using the provided parameters.
+     *
+     * @param param1 Parameter 1.
+     * @param param2 Parameter 2.
+     * @return A new instance of fragment SectionFragment.
+     */
     // TODO: Rename and change types and number of parameters
-    public static DatabaseManagerFragment newInstance(String param1, String param2) {
-        DatabaseManagerFragment fragment = new DatabaseManagerFragment();
+    public static SectionFragment newInstance(String param1, String param2) {
+        SectionFragment fragment = new SectionFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -52,64 +58,22 @@ public class DatabaseManagerFragment extends Fragment  {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
-    EditText txbParentId;
-    EditText txbName;
-    TextView txvDisplay;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_database_manager, container, false);
+        View view = inflater.inflate(R.layout.fragment_section, container, false);
 
-        txbParentId = (EditText) view.findViewById(R.id.txbParentId);
-        txbName = (EditText) view.findViewById(R.id.txbName);
-        txvDisplay = (TextView) view.findViewById(R.id.txvDisplay);
+        DataManager dataManager = new DataManager(this.getContext());
+        List<Section> sections = dataManager.getSections(0);
 
-        final Button btnCreateDatabase = (Button) view.findViewById(R.id.btnCreateDatabase);
-        btnCreateDatabase.setOnClickListener(
-                new View.OnClickListener(){
-                    public void onClick(View v){
-                        CreateDatabase(v);
-                    }
-                }
-        );
+//new ArrayAdapter<String>(this, R.layout.a_layout_file, R.id.the_id_of_a_textview_from_the_layout, this.file)
+        ArrayAdapter<Section> adapter = new ArrayAdapter<Section>(this.getContext(), R.layout.section_row, tvName, sections);
 
-        final Button btnInsertSection = (Button) view.findViewById(R.id.btnInsertSection);
-        btnInsertSection.setOnClickListener(
-                new View.OnClickListener(){
-                    public void onClick(View v){
-                        insertSection(v);
-                    }
-                }
-        );
+        ListView listViewSection = (ListView) view.findViewById(R.id.listViewSection);
+        listViewSection.setAdapter(adapter);
 
         return view;
-    }
-
-    private void insertSection(View view)
-    {
-        int parentId =Integer.parseInt(txbParentId.getText().toString());
-        String name = txbName.getText().toString();
-
-        DataManager dataManager = new DataManager(this.getContext());
-        long result = dataManager.insertSection(parentId, name);
-        txvDisplay.setText(Long.toString(result));
-    }
-
-    private void CreateDatabase(View view)
-    {
-        DataManager dataManager = new DataManager(this.getContext());
-        dataManager.createDatabase();
-        txvDisplay.setText("Create Database called!");
-        //Toast.makeText(this, "CreateDatabase!", Toast.LENGTH_LONG).show();
-        //dataProvider.CreateDatabase();
-        //lblInfo.setText("Database created!");
-    }
-
-
-
-    @Override
-    public void onResume() {
-        super.onResume();
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -150,5 +114,4 @@ public class DatabaseManagerFragment extends Fragment  {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
-
 }

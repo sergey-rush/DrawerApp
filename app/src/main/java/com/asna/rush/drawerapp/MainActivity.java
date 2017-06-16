@@ -21,13 +21,13 @@ import android.widget.Toast;
 import static com.asna.rush.drawerapp.R.id.btnCreateDatabase;
 
 public class MainActivity extends AppCompatActivity
-        implements DatabaseManagerFragment.OnFragmentInteractionListener, CreateStructureFragment.OnFragmentInteractionListener, View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
+        implements DatabaseManagerFragment.OnFragmentInteractionListener, CreateStructureFragment.OnFragmentInteractionListener,
+        SectionFragment.OnFragmentInteractionListener, View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
 
     @Override
     public void onFragmentInteraction(Uri uri) {
 
     }
-
 
 
     @Override
@@ -69,8 +69,7 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    private void CreateDatabase()
-    {
+    private void CreateDatabase() {
         Toast.makeText(this, "CreateDatabase!", Toast.LENGTH_LONG).show();
         //dataProvider.CreateDatabase();
         //lblInfo.setText("Database created!");
@@ -129,7 +128,7 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_gallery) {
             fragment = new CreateStructureFragment();
         } else if (id == R.id.nav_slideshow) {
-
+            fragment = new SectionFragment();
         } else if (id == R.id.nav_manage) {
 
         } else if (id == R.id.nav_share) {
@@ -138,8 +137,6 @@ public class MainActivity extends AppCompatActivity
 
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
 
         if (fragment != null) {
 
@@ -148,6 +145,9 @@ public class MainActivity extends AppCompatActivity
                     .replace(R.id.container, fragment)
                     .commit();
         }
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
 
         return true;
     }
