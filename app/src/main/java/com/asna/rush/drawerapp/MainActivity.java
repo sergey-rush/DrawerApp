@@ -21,7 +21,7 @@ import android.widget.Toast;
 import static com.asna.rush.drawerapp.R.id.btnCreateDatabase;
 
 public class MainActivity extends AppCompatActivity
-        implements DatabaseManagerFragment.OnFragmentInteractionListener, View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
+        implements DatabaseManagerFragment.OnFragmentInteractionListener, CreateStructureFragment.OnFragmentInteractionListener, View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
 
     @Override
     public void onFragmentInteraction(Uri uri) {
@@ -127,7 +127,7 @@ public class MainActivity extends AppCompatActivity
             fragment = new DatabaseManagerFragment();
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {
-
+            fragment = new CreateStructureFragment();
         } else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_manage) {
