@@ -57,6 +57,12 @@ public class DataManager  extends SQLiteOpenHelper {
         return db.insert("Sections", null, contentValues);
     }
 
+    public boolean deleteSection(int id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete("Sections", "Id = ?", new String[]{id + ""});
+        return true;
+    }
+
     public void createDatabase() {
         SQLiteDatabase db = this.getWritableDatabase();
     }

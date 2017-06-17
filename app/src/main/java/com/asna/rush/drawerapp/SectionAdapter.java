@@ -1,49 +1,55 @@
 package com.asna.rush.drawerapp;
 
-import android.app.Activity;
 import android.content.Context;
-import android.support.v4.widget.ViewDragHelper;
-import android.support.v7.widget.RecyclerView;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
+import android.widget.ArrayAdapter;
+import android.widget.TextView;
 
 import java.util.List;
 
-public class SectionAdapter extends BaseAdapter {
+public class SectionAdapter extends ArrayAdapter<String> {
 
     Context context;
-    List<Section> rowItems;
+    List<Section> sections;
+
+    public SectionAdapter(Context context, List<Section> sections) {
+        super(context, R.layout.section_row);
+        this.context = context;
+        this.sections = sections;
+    }
 
     @Override
     public int getCount() {
-        return 0;
+        return sections.size();
     }
 
-    @Override
-    public Object getItem(int position) {
-        return null;
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return 0;
-    }
-
+    @NonNull
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        ViewHolder holder = null;
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+        ViewHolder holder = new ViewHolder();
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        if(convertView!=null)
-        {
-            convertView = inflater.inflate(R.layout.section_row, null);
-            holder = new ViewHolder();
-
+        if (convertView == null) {
+            convertView = inflater.inflate(R.layout.section_row, parent, false);
+            holder.tvId = (TextView) convertView.findViewById(R.id.tvId);
+            holder.tvName = (TextView) convertView.findViewById(R.id.tvName);
+            convertView.setTag(holder);
+        } else {
+            holder = (ViewHolder) convertView.getTag();
         }
+        Section section = sections.get(position);
 
-        return null;
+        holder.tvId.setText(section.Id + "");
+        holder.tvName.setText(section.Name);
+        return convertView;
+    }
+
+    static class ViewHolder {
+        TextView tvId;
+        TextView tvName;
     }
 }

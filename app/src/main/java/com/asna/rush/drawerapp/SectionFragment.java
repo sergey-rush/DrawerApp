@@ -1,15 +1,22 @@
 package com.asna.rush.drawerapp;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.lang.reflect.Array;
 import java.util.List;
@@ -67,13 +74,48 @@ public class SectionFragment extends Fragment {
         DataManager dataManager = new DataManager(this.getContext());
         List<Section> sections = dataManager.getSections(0);
 
-//new ArrayAdapter<String>(this, R.layout.a_layout_file, R.id.the_id_of_a_textview_from_the_layout, this.file)
-        ArrayAdapter<Section> adapter = new ArrayAdapter<Section>(this.getContext(), R.layout.section_row, tvName, sections);
+        SectionAdapter adapter = new SectionAdapter(this.getContext(), sections);
 
         ListView listViewSection = (ListView) view.findViewById(R.id.listViewSection);
         listViewSection.setAdapter(adapter);
 
+        listViewSection.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+
+                LinearLayout layout = (LinearLayout)view;
+                TextView tvId = (TextView)layout.findViewById(R.id.tvId);
+                TextView tvName = (TextView)layout.findViewById(R.id.tvName);
+                Toast.makeText(view.getContext(), "Item: " + tvName.getText(), Toast.LENGTH_SHORT).show();
+                int itemId = Integer.parseInt(tvId.getText().toString());
+                AskOption(itemId, view).show();
+            }
+        });
+
         return view;
+    }
+
+    private AlertDialog AskOption(final int itemId, final View view) {
+        AlertDialog alertDialog = new AlertDialog.Builder(view.getContext())
+                //set message, title, and icon
+                .setTitle("Удаление")
+                .setMessage("Вы действительно желаете удалить?")
+                .setIcon(R.drawable.delete)
+                .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        DataManager dataManager = new DataManager(view.getContext());
+                        dataManager.deleteSection(itemId);
+                        dialog.dismiss();
+                    }
+
+                })
+                .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .create();
+        return alertDialog;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
