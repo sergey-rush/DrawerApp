@@ -1,4 +1,4 @@
-package com.asna.rush.drawerapp;
+package com.asna.rush.core;
 
 public class Section {
     public int Id;

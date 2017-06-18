@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import com.asna.rush.core.Section;
+
 import java.util.List;
 
 public class SectionAdapter extends ArrayAdapter<String> {

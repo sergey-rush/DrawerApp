@@ -18,6 +18,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.asna.rush.core.Section;
+import com.asna.rush.data.DataAccess;
+
 import java.lang.reflect.Array;
 import java.util.List;
 
@@ -71,8 +74,8 @@ public class SectionFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_section, container, false);
 
-        DataManager dataManager = new DataManager(this.getContext());
-        List<Section> sections = dataManager.getSections(0);
+        DataAccess dataAccess = DataAccess.getInstance(this.getContext());
+        List<Section> sections = dataAccess.Sections().getSections(1613);
 
         SectionAdapter adapter = new SectionAdapter(this.getContext(), sections);
 
@@ -103,8 +106,8 @@ public class SectionFragment extends Fragment {
                 .setIcon(R.drawable.delete)
                 .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
-                        DataManager dataManager = new DataManager(view.getContext());
-                        dataManager.deleteSection(itemId);
+                        //DataManager dataManager = new DataManager(view.getContext());
+                        //dataManager.deleteSection(itemId);
                         dialog.dismiss();
                     }
 

@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.asna.rush.data.DataAccess;
 import com.google.android.gms.plus.PlusOneButton;
 
 import static com.asna.rush.drawerapp.R.id.btnCreateDatabase;
@@ -90,15 +91,15 @@ public class DatabaseManagerFragment extends Fragment  {
         int parentId =Integer.parseInt(txbParentId.getText().toString());
         String name = txbName.getText().toString();
 
-        DataManager dataManager = new DataManager(this.getContext());
-        long result = dataManager.insertSection(parentId, name);
-        txvDisplay.setText(Long.toString(result));
+        //DataManager dataManager = new DataManager(this.getContext());
+        //long result = dataManager.insertSection(parentId, name);
+        //txvDisplay.setText(Long.toString(result));
     }
 
     private void CreateDatabase(View view)
     {
-        DataManager dataManager = new DataManager(this.getContext());
-        dataManager.createDatabase();
+        DataAccess dataAccess = DataAccess.getInstance(this.getContext());
+        dataAccess.createDatabase();
         txvDisplay.setText("Create Database called!");
         //Toast.makeText(this, "CreateDatabase!", Toast.LENGTH_LONG).show();
         //dataProvider.CreateDatabase();

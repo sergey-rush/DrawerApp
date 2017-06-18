@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.asna.rush.core.Section;
+
 import java.util.ArrayList;
 import java.util.List;
 
