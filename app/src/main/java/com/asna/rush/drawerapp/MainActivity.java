@@ -22,24 +22,18 @@ import static com.asna.rush.drawerapp.R.id.btnCreateDatabase;
 
 public class MainActivity extends AppCompatActivity
         implements DatabaseManagerFragment.OnFragmentInteractionListener, CreateStructureFragment.OnFragmentInteractionListener,
-        SectionFragment.OnFragmentInteractionListener, View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
-
+        SectionFragment.OnFragmentInteractionListener, ProfileFragment.OnFragmentInteractionListener,
+        View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        getSupportActionBar().setTitle("Каталог товаров");
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -50,22 +44,6 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
     }
 
-    @Override
-    public void onClick(View v) {
-
-        int callerId = v.getId();
-        switch (callerId) {
-            case R.id.btnCreateDatabase:
-                CreateDatabase();
-                break;
-        }
-    }
-
-    private void CreateDatabase() {
-        Toast.makeText(this, "CreateDatabase!", Toast.LENGTH_LONG).show();
-        //dataProvider.CreateDatabase();
-        //lblInfo.setText("Database created!");
-    }
 
     @Override
     public void onBackPressed() {
@@ -90,17 +68,16 @@ public class MainActivity extends AppCompatActivity
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        Toast.makeText(this, "Id: " + id, Toast.LENGTH_LONG).show();
-
-        Fragment fragment = null;
-
+        String message = "";
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        if (id == R.id.action_search) {
+            message = "Поиск";
+        } else if (id == R.id.action_basket) {
+            message = "Корзина";
         }
-
-        return super.onOptionsItemSelected(item);
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+        return true;
+        //return super.onOptionsItemSelected(item);
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -122,7 +99,7 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_slideshow) {
             fragment = new SectionFragment();
         } else if (id == R.id.nav_manage) {
-
+            fragment = new ProfileFragment();
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {
@@ -142,6 +119,11 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
 
         return true;
+    }
+
+    @Override
+    public void onClick(View v) {
+
     }
 
     @Override

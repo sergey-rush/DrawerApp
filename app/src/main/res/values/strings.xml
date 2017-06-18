@@ -2,7 +2,8 @@
     <string name="app_name">Pills</string>
     <string name="navigation_drawer_open">Открыть боковое меню</string>
     <string name="navigation_drawer_close">Закрыть боковое меню</string>
-    <string name="action_settings">Настройки</string>
+    <string name="action_search">Поиск</string>
+    <string name="action_basket">Корзина</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
